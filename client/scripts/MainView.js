@@ -8,7 +8,7 @@
     var templates = App.Templates,
         views = App.Views;
 
-    views.MainView = Backbone.View.extend({ 
+    views.MainView = Backbone.View.extend({
 
         el: '#body',
 

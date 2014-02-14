@@ -6,7 +6,7 @@
 
     var Templates = App.Templates;
 
-    App.Views.HomeIndexView = Backbone.View.extend({ 
+    App.Views.HomeIndexView = Backbone.View.extend({
 
         template: Templates.HomeIndexView,
 

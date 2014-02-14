@@ -12,6 +12,6 @@
         app.setView(view);
         view.render();
         app.router.navigate('/');
-    }
+    };
 
 }());

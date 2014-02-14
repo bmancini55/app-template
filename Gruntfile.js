@@ -1,9 +1,8 @@
-﻿
-module.exports = function(grunt) {
-    'use strict';
+// Defintes the grunt tasks for the application
+module.exports = function (grunt) {
 
     // load grunt tasks
-    grunt.loadNpmTasks('grunt-jslint');
+    grunt.loadNpmTasks('grunt-contrib-jshint');
     grunt.loadNpmTasks('grunt-contrib-clean');
     grunt.loadNpmTasks('grunt-contrib-handlebars');
     grunt.loadNpmTasks('grunt-contrib-concat');
@@ -13,30 +12,40 @@ module.exports = function(grunt) {
     grunt.initConfig({
 
         // lint ze codes
-        jslint: {
+        jshint: {
             server: {
+                options: {
+                    node: true,
+                    browser: false,
+                    trailing: true,
+                    undef: true
+                },
                 src: [
+                    'Gruntfile.js',
                     'app.js',
                     'server/**/*.js'
-                ],
-                exclude: [],
-                directives: { 
-                    node: true,
-                    browser: false
-                }
+                ]
             },
             client: {
-                src: [
-                    'client/**/*.js'
-                ],
-                exlcude: [
-                    'client/vendor'
-                ],
-                directive: { 
+                options: {
                     node: false,
                     browser: true,
-                    predef: [ '$', '_', 'Handlebars', 'Backbone' ]
-                }
+                    trailing: true,
+                    undef: true,
+                    globals: {
+                        '$': true,
+                        '_': true,
+                        'Handlebars': true,
+                        'Backbone': true,
+                        'App': true,
+                        'app': true
+                    }
+                },
+                src: [
+                    'client/**/*.js',
+                    '!client/vendors/**/*.js',
+                    '!client/build/**/*.js'
+                ]
             }
         },
 
@@ -54,7 +63,7 @@ module.exports = function(grunt) {
                     namespace: 'App.Templates',
 
                     // use filename without extension as key
-                    processName: function(filePath) {
+                    processName: function (filePath) {
                         var pieces = filePath.split('/');
                         return pieces[pieces.length - 1].split('.')[0];
                     }
@@ -72,7 +81,7 @@ module.exports = function(grunt) {
             bootstrap: {
                 files: [
                     { src: 'client/vendors/bootstrap/dist/css/bootstrap.css', dest: 'client/build/bootstrap/css/bootstrap.css' },
-                    { src: 'client/vendors/bootstrap/dist/js/bootstrap.js', dest: 'client/build/bootstrap/js/bootstrap.js' }, 
+                    { src: 'client/vendors/bootstrap/dist/js/bootstrap.js', dest: 'client/build/bootstrap/js/bootstrap.js' },
                     { expand: true, flatten: true, src: 'client/vendors/bootstrap/dist/fonts/*', dest: 'client/build/bootstrap/fonts/' }
                 ]
             }
@@ -81,7 +90,7 @@ module.exports = function(grunt) {
         // concats files into single outputs
         concat: {
             dependencies: {
-                src: [ 
+                src: [
                     'client/vendors/jquery/jquery.js',
                     'client/vendors/json2/json2.js',
                     'client/vendors/underscore/underscore.js',
@@ -120,4 +129,4 @@ module.exports = function(grunt) {
 
     grunt.registerTask('verify', 'Verifies code quality', ['jslint']);
     grunt.registerTask('build', 'Builds the client code', ['clean', 'copy', 'handlebars', 'concat']);
-}
+};

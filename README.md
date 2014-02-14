@@ -37,7 +37,7 @@ Install `grunt` task runner to the global location
 
 The following grunt tasks have been configured:
 
-`grunt lint` will lint your code
+`grunt jslint` will lint your code
 
 `grunt verify` will run code quality tests such as linting and unit tests
 
